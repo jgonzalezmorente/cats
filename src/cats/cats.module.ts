@@ -4,8 +4,11 @@ import { CatsServiceService } from './cats-service.service';
 
 @Module({
     controllers: [CatsController],
-    providers: [CatsServiceService],
+    //providers: [CatsServiceService],
     exports: [CatsServiceService]
 })
 export class CatsModule {
+    constructor(private catsService: CatsServiceService) {
+        catsService.baseUrl = 'http:kñjafñdlkj'
+    }
 }
