@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CatDto, CreateCatDto } from 'src/cats/dtos';
 
 @Injectable()
-export class CatsServiceService {
+export class CatsService {
 
     private _baseUrl: string = '';
 
@@ -46,5 +46,7 @@ export class CatsServiceService {
         delete newCat.id
         return newCat;
     }
+
+
 
 }

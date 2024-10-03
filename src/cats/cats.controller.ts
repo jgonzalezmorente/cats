@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Header, HttpCode, NotFoundException, Param, Post, Query, Redirect, Req } from '@nestjs/common';
-import { CatsServiceService } from './cats-service.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { CatsService } from './cats.service';
 import { CatDto, CreateCatDto } from './dtos';
 
 
@@ -7,7 +7,7 @@ import { CatDto, CreateCatDto } from './dtos';
 export class CatsController {
 
     constructor(
-        private readonly catsService: CatsServiceService
+        private readonly catsService: CatsService
     ) {}
 
     @Get()
@@ -22,6 +22,7 @@ export class CatsController {
 
     @Post()
     async create(@Body() createCatDto: CreateCatDto) {
+        console.log(createCatDto);
         return this.catsService.createCat(createCatDto);
     }
 

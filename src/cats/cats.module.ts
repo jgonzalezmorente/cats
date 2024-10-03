@@ -1,14 +1,27 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { CatsController } from './cats.controller';
-import { CatsServiceService } from './cats-service.service';
+import { CatsService } from './cats.service';
+import { AuthMiddelware, loggerFun, LoggerMiddelware } from './middlewares';
 
+const esperar = async (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
 @Module({
     controllers: [CatsController],
-    //providers: [CatsServiceService],
-    exports: [CatsServiceService]
+    providers: [CatsService],
+    exports: [CatsService]
 })
-export class CatsModule {
-    constructor(private catsService: CatsServiceService) {
-        catsService.baseUrl = 'http:kñjafñdlkj'
+export class CatsModule implements NestModule {
+    async configure(consumer: MiddlewareConsumer) {
+        await esperar(1000);
+        consumer
+            .apply(LoggerMiddelware, AuthMiddelware, loggerFun)
+            .exclude(
+                { path: 'cats', method: RequestMethod.GET },
+                'cats/(.*)'
+            )
+            .forRoutes(CatsController);
     }
 }
+
+
+
+
