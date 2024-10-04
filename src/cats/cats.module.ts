@@ -11,7 +11,7 @@ const esperar = async (ms: number): Promise<void> => new Promise(resolve => setT
 })
 export class CatsModule implements NestModule {
     async configure(consumer: MiddlewareConsumer) {
-        await esperar(1000);
+        // await esperar(1000);
         consumer
             .apply(LoggerMiddelware, AuthMiddelware, loggerFun)
             .exclude(

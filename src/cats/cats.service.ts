@@ -1,5 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CatDto, CreateCatDto } from 'src/cats/dtos';
+import * as createError from 'http-errors';
+import { CustomException, ForbiddenException } from '../common/exceptions';
 
 @Injectable()
 export class CatsService {
@@ -28,15 +30,29 @@ export class CatsService {
 
 
     findAll(): CatDto[] {
+        //throw createError(404, 'Se ha producido un error');
+        throw new NotFoundException('Algo salio mal', { cause: new Error(), description: 'Algo fue mal'});
         return this.cats;
     }
 
     findById(id: number) {
         const cat = this.cats.find(cat => cat.id === id);
+        if (!cat) {
+            throw new HttpException(
+                `Gato con ${id} no encontrado!!!`,
+                HttpStatus.NOT_FOUND,
+                {
+                    cause: new Error('No encontrado')
+                }
+            );
+        }
         return cat;
     }
 
     createCat(cat: CreateCatDto): CatDto {
+        if (cat.age > 20) {
+            throw new ForbiddenException();
+        }
         const lastCat = this.cats[this.cats.length - 1];
         const newCat = {
             id: lastCat.id + 1,
