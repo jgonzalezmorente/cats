@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { CatsService } from '../cats.service';
+import { CatsService } from '../providers';
 
 
 @Injectable()

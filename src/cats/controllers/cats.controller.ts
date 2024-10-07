@@ -1,7 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CatsService } from './cats.service';
-import { CatDto, CreateCatDto } from './dtos';
+import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
+import { CatsService } from '../providers';
+import { CatDto, CreateCatDto } from '../dtos';
+import { HttpExceptionFilter } from '../../common/filters';
+
 @Controller('cats')
+//@UseFilters(HttpExceptionFilter)
 export class CatsController {
 
     constructor(
@@ -9,8 +12,14 @@ export class CatsController {
     ) {}
 
     @Get()
+    //@UseFilters(HttpExceptionFilter)
     findAll(): CatDto[] {
         return this.catsService.findAll();
+    }
+
+    @Get('/error')
+    error() {
+        throw new Error('Prueba de error no HTTP');
     }
 
     @Get(':id')

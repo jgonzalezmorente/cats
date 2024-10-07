@@ -1,7 +1,7 @@
 import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CatDto, CreateCatDto } from 'src/cats/dtos';
 import * as createError from 'http-errors';
-import { CustomException, ForbiddenException } from '../common/exceptions';
+import { CustomException, ForbiddenException } from '../../common/exceptions';
 
 @Injectable()
 export class CatsService {
